@@ -38,4 +38,4 @@ php artisan key:generate
 ```  
 ## ER図  
 テーブル使用に基づいて作成したER図を以下に示します。  
-![ER図](ER図.png)
+![ER図](ER図.drawio.png)
