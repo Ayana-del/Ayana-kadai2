@@ -38,4 +38,14 @@ php artisan key:generate
 ```  
 ## ER図  
 テーブル使用に基づいて作成したER図を以下に示します。  
-![ER図](ER図.drawio.png)
+![ER図](ER図.drawio.png)  
+## ルーティング仕様  
+| 画面 | HTTPメソッド | URL | 目的 | コントローラーメソッド |  
+| 商品一覧 | GET | /products | 商品一覧を表示 | index |  
+| 検索 | GET | /products/search | 検索結果を表示 | search |  
+| 商品登録画面 | GET | /products/register | 登録フォーム | create |  
+| 商品登録処理 | POST | /products/register | フォームをデータベースに保存 | store |  
+| 商品詳細・変更フォーム | GET | /products/{productId} | 特定の商品を表示・編集フォームを表示 | show |  
+| 商品更新処理 | PATCH | /products/{productId}/update | 編集データをデータベースに反映 | update |  
+| 削除処理 | DELETE | /priducts/{productId}/delete | 特定の商品を削除 | destroy |  
+| ---- | ---- | ---- | ---- | ----|  
