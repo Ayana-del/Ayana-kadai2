@@ -78,4 +78,34 @@ php artisan key:generate
 | store(Request $request) | POST | /products/register | 商品登録処理。バリデーション、画像バリデーション、画像アップロード、productsおよび、product_seasonテーブルへのデータ保存を行う。 |  
 | show($productId) | GET | /products/{productId} | 商品詳細・変更フォーム表示。指定されたIDの商品と関連する季節情報を主と置くし、ビューへ渡す。|  
 | update(Request $request,$productId) | PATCH | /products/{productId}/update | 商品更新処理。更新データのバリデーション、画像更新、データベースの更新を行う。 |  
-| destroy($productId) | DELETE | /products/{productId}/delete | 商品削除処理。指定されたIDと、関連する中間テーブルのレコードを削除する。 |
+| destroy($productId) | DELETE | /products/{productId}/delete | 商品削除処理。指定されたIDと、関連する中間テーブルのレコードを削除する。 |  
+  
+## データベース仕様  
+商品管理機能のために定義し、マイグレーションを実行したテーブル構造は以下の通りです。  
+1.productsテーブル（商品情報）  
+| カラム名 | 型 | PRIMARY KEY | NOT NULL | 補足 |  
+| :---- | :---- | :---- | :---- | :---- |  
+| id | bigint unsigned | ◯ | ◯ | 主キー |  
+| name | varchar(255) |  | ◯ | 商品名 |  
+| price | int |  | ◯ | 商品料金 |  
+| image | varchar(255) |  | ◯ | 商品画像パス |  
+| description | text |  | ◯ | 商品説明 |  
+| created_at | timestamp |  |  |  |  
+| updated_at | timestamp |  |  |  |  
+  
+2.seasonsテーブル（季節情報）  
+| カラム名 | 型 | PRIMARY KEY | NOT NULL | 補足 |  
+| :---- | :---- | :---- | :---- | :---- |  
+| id | bigint unsigned | ◯ | ◯ | 主キー |  
+| name | varchar(255) |  | ◯ | 季節名 |  
+| created_at | timestamp |  |  |  |  
+| updated_at | timestamp |  |  |  |  
+  
+3.product_seasonテーブル（中間テーブル）  
+| カラム名 | 型 | PRIMARY KEY | NOT NULL | FOREIGN KEY |  
+| :---- | :---- | :---- | :---- | :---- |  
+| id | bigint unsigned | ◯ | ◯ |  |  
+| product_id | bigint unsigned |  | ◯ | products(id) |  
+| season_id | bigint unsigned |  | ◯ | seasons(id) |  
+| create_at | timestamp |  |  |  |  
+| updated_at | timestamp |  |  |  |  
