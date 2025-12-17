@@ -109,3 +109,17 @@ php artisan key:generate
 | season_id | bigint unsigned |  | ◯ | seasons(id) |  
 | create_at | timestamp |  |  |  |  
 | updated_at | timestamp |  |  |  |  
+  
+## モデル・リレーション仕様  
+Eloquent ORMを使用し、以下の通りテーブル間の関連付けを定義しています。  
+### Productモデル(APP\Models\Product)  
+・多対多リレーション：seasons()  
+　・product_season中間テーブルを介してSeasonモデルと関連づけられています。  
+　・withTimestamps()を有効にしており、中間テーブルのcreated_at/updated_atを自動更新します。  
+  
+・一括割り当て制限($fillable):name,price,image,description  
+### Seasonモデル(App\Models\Season)  
+・多対多リレーション：products()  
+　・product_sesason中間テーブルを介してProductモデルと関連づけられています。  
+・一括割り当て制限($fillable):name
+
