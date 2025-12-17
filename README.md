@@ -122,4 +122,8 @@ Eloquent ORMを使用し、以下の通りテーブル間の関連付けを定�
 ・多対多リレーション：products()  
 　・product_sesason中間テーブルを介してProductモデルと関連づけられています。  
 ・一括割り当て制限($fillable):name
+  
+## 初期データ仕様  
+・SeasonSeeder:システムで利用する基本の季節データを登録します。
+登録内容 : 春、夏、秋、冬  
 
