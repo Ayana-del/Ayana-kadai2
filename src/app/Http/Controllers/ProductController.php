@@ -2,13 +2,30 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    public function index() //商品一覧を表示 (GET/products)
-    {   //データベースから商品一覧を取得し、ビューに渡す
-        return view('products.index');
+    public function index(Request $request) //商品一覧
+
+    {
+        $query = Product::query();
+
+        //商品検索機能(部分一致)
+        if($request->filled('keyword')){
+            $query->where('name','like','%' . $request->keyword . '%');
+        }
+        //商品並べ替え機能
+        if ($request->sort === 'high'){
+            $query->orderBy('price','desc');
+        }
+        elseif($request->sort === 'low'){
+            $query->orderBy('price','asc');
+        }
+        //画面表示(６件ごとに表示)
+        $products = $query->paginate(6)->appends($request->all());
+        return view('index', compact('products'));
     }
 
     public function create() //登録フォームと季節の選択肢をビューに渡す(GET/products/register)
@@ -18,12 +35,13 @@ class ProductController extends Controller
 
     public function store(Request $request) //商品をデータベースに保存(POST/products/register)
     {   //バリデーション、画像のアップロード、productsテーブルとproduct_seasonテーブルへの保存完了
-        return redirect()->route('products.index')->with('success','商品を登録しました。');
+        return redirect()->route('products.index')->with('success', '商品を登録しました。');
     }
 
     public function show($productId) //特定の商品詳細（と変更フォーム）を表示￥(GET/products/{productId})
-    {   //データベースから特定の商品情報を取得し、ビューに渡す
-        return view('products.show',compact('productId'));
+    {
+        $product = Product::with('seasons')->findOrFail($productId);
+        return view('show', compact('product'));
     }
 
     public function update(Request $request, $productId) //特定の商品を更新（PATCH/products/{productId}/update)
@@ -33,7 +51,7 @@ class ProductController extends Controller
 
     public function destroy($productId) //特定の商品を削除（DELETE/products/{productId}/delete)
     {   //データベースから商品を削除（リレーションテーブルも含む）
-        return redirect()->route('procucts.index')->with('successs','商品を削除しました。');
+        return redirect()->route('procucts.index')->with('successs', '商品を削除しました。');
     }
 
     public function search(Request $request) //商品を検索

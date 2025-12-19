@@ -1,0 +1,141 @@
+/* 基本設定 */
+body {
+    font-family: 'sans-serif';
+    margin: 0;
+    background-color: #fcfcfc;
+    color: #333;
+}
+
+.header {
+    padding: 20px 0;
+    background: #fff;
+}
+
+.header-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.logo {
+    color: #d4af37;
+    font-style: italic;
+    font-size: 24px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* レイアウト */
+.product-container {
+    display: flex;
+    max-width: 1200px;
+    margin: 40px auto;
+    gap: 40px;
+    padding: 0 20px;
+}
+
+.sidebar {
+    width: 220px;
+}
+
+.product-main {
+    flex: 1;
+}
+
+/* フォーム要素 */
+.search-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    box-sizing: border-box;
+}
+
+.btn-search {
+    width: 100%;
+    background: #ffd700;
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    font-weight: bold;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.sort-select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-top: 10px;
+    background: #fff;
+}
+
+/* 商品追加ボタン */
+.header-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.btn-add {
+    background: #ffaa33;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+/* 商品カード */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.product-card {
+    background: #fff;
+    border-radius: 4px;
+    text-decoration: none;
+    color: inherit;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+.product-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.card-info {
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+}
+
+/* タグとページネーション */
+.filter-tag {
+    display: inline-flex;
+    align-items: center;
+    background: #fff;
+    border: 1px solid #ffd700;
+    padding: 5px 15px;
+    border-radius: 20px;
+    margin-top: 15px;
+    font-size: 13px;
+}
+
+.reset-icon {
+    margin-left: 10px;
+    color: #ffd700;
+    text-decoration: none;
+}
+
+.pagination-container {
+    margin-top: 40px;
+    text-align: center;
+}

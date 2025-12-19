@@ -76,7 +76,7 @@ php artisan key:generate
 | search(Request $request) | GET | /products/search | 商品検索処理。リクエストの検索条件に基づき、商品を絞り込んでindexビューへ渡す。 |  
 | create() | GET | /products/register | 商品登録フォーム表示。フォームと共に、seasonsテーブルから季節の選択肢を取得しビューへ渡す。 |  
 | store(Request $request) | POST | /products/register | 商品登録処理。バリデーション、画像バリデーション、画像アップロード、productsおよび、product_seasonテーブルへのデータ保存を行う。 |  
-| show($productId) | GET | /products/{productId} | 商品詳細・変更フォーム表示。指定されたIDの商品と関連する季節情報を主と置くし、ビューへ渡す。|  
+| show($productId) | GET | /products/{productId} | 商品詳細・変更フォーム表示。特定の商品詳細を取得。IDが存在しない場合は404エラーを表示。|  
 | update(Request $request,$productId) | PATCH | /products/{productId}/update | 商品更新処理。更新データのバリデーション、画像更新、データベースの更新を行う。 |  
 | destroy($productId) | DELETE | /products/{productId}/delete | 商品削除処理。指定されたIDと、関連する中間テーブルのレコードを削除する。 |  
   
