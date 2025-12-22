@@ -5,7 +5,7 @@
 @section('content')
 <div class="product-container">
     <aside class="sidebar">
-        <form action="/products" method="GET">
+        <form action="{{ route('products.search')}}" method="GET">
             <input type="text" name="keyword" value="{{ request('keyword') }}" placeholder="商品名で検索" class="search-input">
             <button type="submit" class="btn-search">検索</button>
 
@@ -30,19 +30,19 @@
     <main class="product-main">
         <div class="header-actions">
             <h1>{{ request('keyword') ? "“" . request('keyword') . "”の商品一覧" : "商品一覧" }}</h1>
-            <a href="/products/register" class="btn-add">+ 商品を追加</a>
+            <a href="{{ route('products.create')}}" class="btn-add-product">+ 商品を追加</a>
         </div>
 
-        <div class="product-grid">
-            @foreach ($products as $product)
-            <a href="/products/{{ $product->id }}" class="product-card">
-                <img src="{{ asset('assets/img/' . $product->image) }}" alt="{{ $product->name }}">
-                <div class="card-info">
-                    <span class="name">{{ $product->name }}</span>
-                    <span class="price">¥{{ number_format($product->price) }}</span>
-                </div>
-            </a>
-            @endforeach
+        <div class=" product-grid">
+                @foreach ($products as $product)
+                <a href="/products/{{ $product->id }}" class="product-card">
+                    <img src="{{ asset('storage/images/' . $product->image) }}" alt="{{ $product->name }}">
+                    <div class="card-info">
+                        <span class="name">{{ $product->name }}</span>
+                        <span class="price">¥{{ number_format($product->price) }}</span>
+                    </div>
+                </a>
+                @endforeach
         </div>
 
         <div class="pagination-container">

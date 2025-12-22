@@ -180,3 +180,25 @@ body {
 .pagination li a:hover {
     background-color: #f5f5f5;
 }
+
+/* 「+ 商品を追加」ボタンのデザイン */
+.btn-add-product {
+    display: inline-block;
+    background-color: #ffd700;
+    /* お手本の鮮やかな黄色 */
+    color: #333;
+    font-weight: bold;
+    padding: 6px 14px;
+    border-radius: 4px;
+    /* 緩やかな角丸 */
+    text-decoration: none;
+    /* 下線を消す */
+    transition: background-color 0.3s;
+}
+
+.btn-add-product:hover {
+    background-color: #e6c200;
+    /* ホバー時に少し暗くする */
+    text-decoration: none;
+    color: #333;
+}

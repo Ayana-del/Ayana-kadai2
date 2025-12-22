@@ -1,4 +1,4 @@
-## 　 mogitate(基礎学習ターム確認テスト_もぎたて)
+## 　 mogitate(基礎学習ターム確認テスト\_もぎたて)
 
 ## 環境構築
 
@@ -51,12 +51,18 @@ cp .env.example .env
 php artisan key:generate
 ```
 
-## ER 図
+## 使用技術  
+・Language: PHP 7.4 / 8.x  
+・Framework: Laravel 8.x  
+・Database: MySQL  
+・Environment: Docker / docker-compose  
+  
+## ER 図  
 
 テーブル使用に基づいて作成した ER 図を以下に示します。  
 ![ER図](ER図.drawio.png)
 
-## ルーティング仕様
+## ルーティング仕様  
 
 | 画面                   | HTTP メソッド | URL                          | 目的                                 | コントローラーメソッド |
 | :--------------------- | :------------ | :--------------------------- | :----------------------------------- | :--------------------- |
@@ -67,80 +73,95 @@ php artisan key:generate
 | 商品詳細・変更フォーム | GET           | /products/{productId}        | 特定の商品を表示・編集フォームを表示 | show                   |
 | 商品更新処理           | PATCH         | /products/{productId}/update | 編集データをデータベースに反映       | update                 |
 | 削除処理               | DELETE        | /products/{productId}/delete | 特定の商品を削除                     | destroy                |
-  
+
 ## コントローラー仕様  
-商品管理機能の中核を担うProductControllerに実装したメソッドと、その役割は以下の通りです。  
-| メソッド名 | HTTPメソッド | URL | 役割 |  
+
+商品管理機能の中核を担う ProductController に実装したメソッドと、その役割は以下の通りです。  
+| メソッド名 | HTTP メソッド | URL | 役割 |  
 | :---- | :---- | :---- | :---- |  
 | index() | GET | /products |商品一覧表示。データベースから商品を取得し、ビューに渡す。 |  
 | search(Request $request) | GET | /products/search | 商品検索処理。リクエストの検索条件に基づき、商品を絞り込んでindexビューへ渡す。 |  
 | create() | GET | /products/register | 商品登録フォーム表示。フォームと共に、seasonsテーブルから季節の選択肢を取得しビューへ渡す。 |  
 | store(Request $request) | POST | /products/register | 商品登録処理。バリデーション、画像バリデーション、画像アップロード、productsおよび、product_seasonテーブルへのデータ保存を行う。 |  
-| show($productId) | GET | /products/{productId} | 商品詳細・変更フォーム表示。特定の商品詳細を取得。IDが存在しない場合は404エラーを表示。|  
+| show($productId) | GET | /products/{productId} | 商品詳細・変更フォーム表示。特定の商品詳細を取得。ID が存在しない場合は 404 エラーを表示。|  
 | update(Request $request,$productId) | PATCH | /products/{productId}/update | 商品更新処理。更新データのバリデーション、画像更新、データベースの更新を行う。 |  
-| destroy($productId) | DELETE | /products/{productId}/delete | 商品削除処理。指定されたIDと、関連する中間テーブルのレコードを削除する。 |  
-  
+| destroy($productId) | DELETE | /products/{productId}/delete | 商品削除処理。指定された ID と、関連する中間テーブルのレコードを削除する。 |
+
 ## データベース仕様  
+
 商品管理機能のために定義し、マイグレーションを実行したテーブル構造は以下の通りです。  
-1.productsテーブル（商品情報）  
+1.products テーブル（商品情報）  
 | カラム名 | 型 | PRIMARY KEY | NOT NULL | 補足 |  
 | :---- | :---- | :---- | :---- | :---- |  
 | id | bigint unsigned | ◯ | ◯ | 主キー |  
-| name | varchar(255) |  | ◯ | 商品名 |  
-| price | int |  | ◯ | 商品料金 |  
-| image | varchar(255) |  | ◯ | 商品画像パス |  
-| description | text |  | ◯ | 商品説明 |  
-| created_at | timestamp |  |  |  |  
-| updated_at | timestamp |  |  |  |  
-  
-2.seasonsテーブル（季節情報）  
+| name | varchar(255) | | ◯ | 商品名 |  
+| price | int | | ◯ | 商品料金 |  
+| image | varchar(255) | | ◯ | 商品画像パス |  
+| description | text | | ◯ | 商品説明 |  
+| created_at | timestamp | | | |  
+| updated_at | timestamp | | | |
+
+2.seasons テーブル（季節情報）  
 | カラム名 | 型 | PRIMARY KEY | NOT NULL | 補足 |  
 | :---- | :---- | :---- | :---- | :---- |  
 | id | bigint unsigned | ◯ | ◯ | 主キー |  
-| name | varchar(255) |  | ◯ | 季節名 |  
-| created_at | timestamp |  |  |  |  
-| updated_at | timestamp |  |  |  |  
-  
-3.product_seasonテーブル（中間テーブル）  
+| name | varchar(255) | | ◯ | 季節名 |  
+| created_at | timestamp | | | |  
+| updated_at | timestamp | | | |
+
+3.product_season テーブル（中間テーブル）  
 | カラム名 | 型 | PRIMARY KEY | NOT NULL | FOREIGN KEY |  
 | :---- | :---- | :---- | :---- | :---- |  
-| id | bigint unsigned | ◯ | ◯ |  |  
-| product_id | bigint unsigned |  | ◯ | products(id) |  
-| season_id | bigint unsigned |  | ◯ | seasons(id) |  
-| create_at | timestamp |  |  |  |  
-| updated_at | timestamp |  |  |  |  
-  
+| id | bigint unsigned | ◯ | ◯ | |  
+| product_id | bigint unsigned | | ◯ | products(id) |  
+| season_id | bigint unsigned | | ◯ | seasons(id) |  
+| create_at | timestamp | | | |  
+| updated_at | timestamp | | | |
+
 ## モデル・リレーション仕様  
-Eloquent ORMを使用し、以下の通りテーブル間の関連付けを定義しています。  
-### Productモデル(APP\Models\Product)  
+
+Eloquent ORM を使用し、以下の通りテーブル間の関連付けを定義しています。
+
+### Product モデル(APP\Models\Product)
+
 ・多対多リレーション：seasons()  
-　・product_season中間テーブルを介してSeasonモデルと関連づけられています。  
-　・withTimestamps()を有効にしており、中間テーブルのcreated_at/updated_atを自動更新します。  
-  
-・一括割り当て制限($fillable):name,price,image,description  
-### Seasonモデル(App\Models\Season)  
+　・product_season 中間テーブルを介して Season モデルと関連づけられています。  
+　・withTimestamps()を有効にしており、中間テーブルの created_at/updated_at を自動更新します。
+
+・一括割り当て制限($fillable):name,price,image,description
+
+### Season モデル(App\Models\Season)  
+
 ・多対多リレーション：products()  
-　・product_sesason中間テーブルを介してProductモデルと関連づけられています。  
+　・product_sesason 中間テーブルを介して Product モデルと関連づけられています。  
 ・一括割り当て制限($fillable):name
-  
+
 ## 初期データ仕様  
+
 ### SeasonSeeder  
+
 システムで利用する基本の季節データを登録します。  
-登録内容 : 春、夏、秋、冬  
-  
+登録内容 : 春、夏、秋、冬
+
 ### ProductSeeder  
+
 商品テーブルへのデータ登録と同時に、中間テーブルを介した季節データとの紐付けを行います。  
 | 商品名 | 価格 | 画像名 | 紐付けられる季節 |  
 | :---- | :---- | :---- | :---- |  
 | キウイ | 800 | kiwi.png | 秋、冬 |  
-| ストロベリー | 1200 | strawberry.png | 春、冬 |  
+| ストロベリー | 1200 | strawberry.png | 春、冬 |
+
 ### リレーションの実装コード概要  
-Eloquentのattach()メソッドを使用し、中間テーブル(product_season)にレコードを自動投入しています。  
+
+Eloquent の attach()メソッドを使用し、中間テーブル(product_season)にレコードを自動投入しています。  
 
 ## 商品一覧画面  
-登録されているすべての商品を閲覧・件s区できるメイン画面です。  
+
+登録されているすべての商品を閲覧・件 s 区できるメイン画面です。  
 商品を探しやすいよう、検索機能とソート機能を備えています。  
-### 主な機能  
+
+### 主な機能
+
 1.商品リスト表示  
  ・商品画像、名前、価格をタイル（カード）形式で一覧表示します。  
  ・各商品をクリックすることで、詳細画面に遷移します。  
@@ -152,11 +173,14 @@ Eloquentのattach()メソッドを使用し、中間テーブル(product_season)
  ・「価格（高い順/低い順）」での並び替えに対応しています。  
  ・結果の表示の際に、並び替え条件をタグ表示することができ、タグ表示右側の「×」ボタンをクリックすると並び替え機能をリセットすることができます。  
 ４.ページネーション  
- ・商品が多い場合でも、ページを分割して表示し（１ページあたり６件）、パフォーマンスを維持します。
-  
+ ・商品が多い場合でも、ページを分割して表示し（１ページあたり６件）、パフォーマンスを維持します。  
+
 ## 商品詳細画面  
+
 登録されている商品の詳細情報を確認し、編集および削除を行うための画面です。  
+
 ### 主な機能  
+
 1.情報の編集と更新  
  ・商品名、価格、季節、商品説明を現在の登録内容に基づいて表示します。  
  ・編集後、「変更を保存」ボタンでデータベースに保存。（商品一覧画面にリダイレクト）  
@@ -172,6 +196,26 @@ Eloquentのattach()メソッドを使用し、中間テーブル(product_season)
   
 4.削除機能と安全策  
  ・画面右下のゴミ箱のアイコンから商品の削除が可能です。  
- ・確認ダイアログ:JavaScript (confirm) を活用し、削除実行前に「本当に削除しますか？」という警告を出すことで、誤削除を防止します。
+ ・確認ダイアログ:JavaScript (confirm) を活用し、削除実行前に「本当に削除しますか？」という警告を出すことで、誤削除を防止します。  
+  
+## 商品登録画面  
+### 1. バリデーション仕様  
 
+全ての項目を必須入力とし、カスタムエラーメッセージを日本語で表示します。  
 
+| 項目     | バリデーションルール    | エラーメッセージ例               |
+| :------- | :---------------------- | :------------------------------- |
+| 商品名   | 必須                    | 商品名を入力してください         |
+| 値段     | 必須 / 数値 / 0〜10000  | 0~10000 円以内で入力してください |
+| 商品画像 | 必須 / .png, .jpeg 形式 | 商品画像を登録してください       |
+| 季節     | 必須（複数選択可）      | 季節を選択してください           |
+| 商品説明 | 必須 / 最大 120 文字    | 120 文字以内で入力してください   |
+
+### 2. UI/UX の工夫  
+
+- **リアルタイム・プレビュー**: JavaScript（FileReader API）を活用し、画像を選択した瞬間に画面上にプレビューを表示します。これにより、アップロード間違いを未然に防ぎます。
+
+### 3. 画像管理  
+
+- アップロードされた画像は `storage/app/public/images` に一意のファイル名で保存されます。  
+- `php artisan storage:link` コマンドにより公開ディレクトリと同期し、高速な画像表示を実現しています。  
