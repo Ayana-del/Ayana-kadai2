@@ -1,0 +1,188 @@
+.product-detail-container {
+    max-width: 850px;
+    margin: 40px auto;
+    padding: 0 20px;
+    position: relative;
+}
+
+/* 青いパンくず */
+.breadcrumb {
+    margin-bottom: 25px;
+    font-size: 14px;
+}
+
+.breadcrumb a {
+    color: #4a90e2;
+    text-decoration: none;
+}
+
+/* 左右横並び */
+.main-flex-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+.left-column,
+.right-column {
+    flex: 1;
+}
+
+/* 画像表示 */
+.image-wrapper img {
+    width: 100%;
+    border-radius: 4px;
+}
+
+.file-input-group {
+    margin-top: 15px;
+}
+
+.current-file-name {
+    color: #b0b0b0;
+    /* 薄いグレー */
+    font-size: 14px;
+    /* 少し小さめの文字サイズ */
+    overflow: hidden;
+    /* 長すぎるファイル名対策 */
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* 入力欄 */
+.form-item {
+    margin-bottom: 20px;
+}
+
+.form-item label,
+.description-group label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+.input-text,
+.input-textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+/* 季節チェックボックス */
+.checkbox-row {
+    display: flex;
+    gap: 20px;
+    margin-top: 10px;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* 標準のチェックボックスを隠す */
+.checkbox-label input[type="checkbox"] {
+    display: none;
+}
+
+/* チェックボックスの土台（丸） */
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+    padding-left: 30px;
+    /* 円の分だけ余白を作る */
+    margin-right: 15px;
+}
+
+.checkmark {
+    position: absolute;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background-color: #fff;
+    border: 2px solid #ccc;
+    border-radius: 50%;
+    /* これで丸くなります */
+}
+
+/* チェックが入った時の色（お手本の黒/グレー系） */
+.checkbox-label input[type="checkbox"]:checked+.checkmark {
+    background-color: #4b4b4b;
+    border-color: #4b4b4b;
+}
+
+/* チェックが入った時の白い点 */
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+    left: 6px;
+    top: 6px;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: white;
+}
+
+.checkbox-label input[type="checkbox"]:checked+.checkmark:after {
+    display: block;
+}
+
+/* 下部商品説明 */
+.description-group {
+    margin-top: 20px;
+}
+
+/* ボタン中央揃え */
+.form-footer {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+.footer-buttons {
+    display: flex;
+    gap: 20px;
+}
+
+.btn-back {
+    background: #e0e0e0;
+    color: #333;
+    padding: 12px 60px;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.btn-submit {
+    background: #eebe00;
+    color: #333;
+    padding: 12px 60px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* ゴミ箱の絶対配置 */
+.delete-fixed-form {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+
+.btn-trash {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.error-msg {
+    color: #ff0000;
+    font-size: 13px;
+    margin-top: 5px;
+}

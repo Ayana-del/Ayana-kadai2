@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use App\Http\Requests\ProductRequest;
+use App\Models\Season;
 
 class ProductController extends Controller
 {
@@ -15,6 +17,12 @@ class ProductController extends Controller
         //商品検索機能(部分一致)
         if($request->filled('keyword')){
             $query->where('name','like','%' . $request->keyword . '%');
+        }
+        //季節の絞り込み機能
+        if ($request->filled('season')) {
+            $query->whereHas('seasons', function ($q) use ($request) {
+                $q->where('seasons.id', $request->season);
+            });
         }
         //商品並べ替え機能
         if ($request->sort === 'high'){
@@ -41,17 +49,33 @@ class ProductController extends Controller
     public function show($productId) //特定の商品詳細（と変更フォーム）を表示￥(GET/products/{productId})
     {
         $product = Product::with('seasons')->findOrFail($productId);
-        return view('show', compact('product'));
+        //すべての季節を取得(チェックボックス表示用)
+        $seasons = Season::all();
+        return view('show', compact('product','seasons'));
     }
 
-    public function update(Request $request, $productId) //特定の商品を更新（PATCH/products/{productId}/update)
-    {   //バリデーション、画像の更新、productsテーブルとproduct_seasonテーブルの更新処理
-        return redirect()->route('products.show', $productId)->with('success', '商品を更新しました。');
+    public function update(ProductRequest $request, $productId)
+    {
+        $product = Product::findOrFail($productId);
+        $data = $request->only(['name', 'price', 'description']);
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $filename = $image->getClientOriginalName();
+            $image->storeAs('public/images', $filename);
+            $data['image'] = $filename;
+        }
+        $product->update($data);
+        $product->seasons()->sync($request->input('seasons', []));
+        return redirect()->route('products.index')->with('success', '商品を更新しました。');
     }
 
     public function destroy($productId) //特定の商品を削除（DELETE/products/{productId}/delete)
-    {   //データベースから商品を削除（リレーションテーブルも含む）
-        return redirect()->route('procucts.index')->with('successs', '商品を削除しました。');
+    {
+        $product = Product::findOrFail($productId);
+        $product->seasons()->detach();
+        $product->delete();
+
+        return redirect()->route('products.index')->with('success','商品を削除しました。');
     }
 
     public function search(Request $request) //商品を検索
