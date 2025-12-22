@@ -12,7 +12,7 @@
         <a href="{{ route('products.index') }}">商品一覧</a> ＞ {{ $product->name }}
     </nav>
 
-    <form action="{{ route('products.update', $product->id) }}" method="POST" enctype="multipart/form-data" class="update-form">
+    <form action="{{ route('products.update', $product->id) }}" method="POST" enctype="multipart/form-data" class="update-form" novalidate>
         @csrf
         @method('PATCH')
 
@@ -79,7 +79,7 @@
     </form>
 
     {{-- ゴミ箱：右下に配置 --}}
-    <form action="{{ route('products.destroy', $product->id) }}" method="POST" class="delete-fixed-form">
+    <form action="{{ route('products.destroy', $product->id) }}" method="POST" class="delete-fixed-form" novalidate>
         @csrf
         @method('DELETE')
         <button type="submit" class="btn-trash" onclick="return confirm('本当に削除しますか？')">
