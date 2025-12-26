@@ -34,15 +34,15 @@
         </div>
 
         <div class=" product-grid">
-                @foreach ($products as $product)
-                <a href="/products/{{ $product->id }}" class="product-card">
-                    <img src="{{ asset('storage/images/' . $product->image) }}" alt="{{ $product->name }}">
-                    <div class="card-info">
-                        <span class="name">{{ $product->name }}</span>
-                        <span class="price">¥{{ number_format($product->price) }}</span>
-                    </div>
-                </a>
-                @endforeach
+            @foreach ($products as $product)
+            <a href="/products/{{ $product->id }}" class="product-card">
+                <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}">
+                <div class="card-info">
+                    <span class="name">{{ $product->name }}</span>
+                    <span class="price">¥{{ number_format($product->price) }}</span>
+                </div>
+            </a>
+            @endforeach
         </div>
 
         <div class="pagination-container">

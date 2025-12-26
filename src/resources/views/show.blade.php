@@ -20,7 +20,7 @@
             {{-- 左側：画像セクション --}}
             <div class="left-column">
                 <div class="image-wrapper">
-                    <img src="{{ asset('storage/images/' . $product->image) }}" alt="{{ $product->name }}">
+                    <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}">
                 </div>
                 <div class="file-input-group">
                     <input type="file" name="image" id="image">

@@ -1,0 +1,118 @@
+/* ログイン・登録画面全体のコンテナ */
+.auth-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 20px;
+    background-color: #fffef0;
+    /* ほんのり黄色い背景で温かみを出す */
+    min-height: 80vh;
+}
+
+/* カードのデザイン */
+.auth-card {
+    background: #ffffff;
+    padding: 2.5rem;
+    border-radius: 20px;
+    /* 角をさらに丸くしてポップに */
+    box-shadow: 0 10px 30px rgba(255, 200, 0, 0.15);
+    /* 黄色系の柔らかい影 */
+    width: 100%;
+    max-width: 400px;
+    border: 2px solid #ffed4a;
+    /* 薄い黄色の枠線を追加 */
+}
+
+.auth-title {
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: #d97706;
+    /* 濃いオレンジ寄りの色でフルーツ感を出す */
+    text-align: center;
+    margin-bottom: 2rem;
+    letter-spacing: 0.05em;
+}
+
+/* フォーム要素 */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #92400e;
+    /* 落ち着いた茶色で読みやすく */
+    margin-bottom: 0.5rem;
+}
+
+.form-input {
+    width: 100%;
+    padding: 0.8rem;
+    border: 2px solid #fde68a;
+    /* 入力枠も黄色に */
+    border-radius: 12px;
+    background-color: #fff;
+    transition: all 0.3s ease;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #f59e0b;
+    /* フォーカス時は濃い黄色 */
+    box-shadow: 0 0 0 4px rgba(251, 191, 36, 0.2);
+}
+
+/* ボタンを黄色に */
+.auth-button {
+    width: 100%;
+    background-color: #facc15;
+    /* ビビッドな黄色 */
+    color: #451a03;
+    /* 文字は濃い茶色で視認性アップ */
+    font-weight: 900;
+    padding: 0.9rem;
+    border: none;
+    border-radius: 50px;
+    /* ボタンを楕円形にしてポップさを強調 */
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: all 0.2s ease;
+    margin-top: 1rem;
+    box-shadow: 0 4px 0 #d97706;
+    /* ボタンの下に影をつけて立体的に */
+}
+
+.auth-button:hover {
+    background-color: #fde047;
+    transform: translateY(-2px);
+    /* 浮き上がる動き */
+    box-shadow: 0 6px 0 #d97706;
+}
+
+.auth-button:active {
+    transform: translateY(2px);
+    /* 押した時に凹む動き */
+    box-shadow: 0 2px 0 #d97706;
+}
+
+/* リンク */
+.auth-footer {
+    margin-top: 2rem;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.auth-link {
+    color: #d97706;
+    text-decoration: none;
+    font-weight: bold;
+    border-bottom: 2px dashed #fcd34d;
+    /* リンクの下線を点線にしてポップに */
+}
+
+.auth-link:hover {
+    color: #92400e;
+    background-color: #fef3c7;
+}

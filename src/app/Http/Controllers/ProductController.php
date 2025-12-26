@@ -47,8 +47,7 @@ class ProductController extends Controller
     {
         // 画像の保存
         $file = $request->file('image');
-        $fileName = $file->getClientOriginalName();
-        $file->storeAs('public/images', $fileName);
+        $fileName = $file->store('images', 'public');
 
         // 商品の作成
         $product = Product::create([
