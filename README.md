@@ -57,11 +57,11 @@ php artisan migrate --seed
 ```  
   
 画像を表示させるための設定  
-シンボリックリンクの作成  
+・シンボリックリンクの作成  
 ```bash  
 php artisan storage:link  
 ```  
-画像保存ディレクトリの権限変更（書き込み・表示を許可）  
+・画像保存ディレクトリの権限変更（書き込み・表示を許可）  
 ```bash  
 chmod -R 777 storage bootstrap/cache  
 ```

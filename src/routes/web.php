@@ -26,6 +26,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/products/register', [ProductController::class, 'create'])->name('products.create');
         Route::post('/products/register', [ProductController::class, 'store'])->name('products.store');
         Route::get('/products/{productId}', [ProductController::class, 'show'])->name('products.show');
+        //コメント追加機能
+        Route::post('/products/{productId}/comments', [ProductController::class, 'storeComment'])->name('comments.store');
         Route::match(['patch'], '/products/{productId}/update', [ProductController::class, 'update'])->name('products.update');
         Route::delete('/products/{productId}/delete', [ProductController::class, 'destroy'])->name('products.destroy');
     });

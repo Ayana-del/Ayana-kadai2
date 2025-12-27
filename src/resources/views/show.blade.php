@@ -77,6 +77,46 @@
             </div>
         </div>
     </form>
+    <hr class="comment-divider">
+
+    <div class="comments-section">
+        <h3 class="comments-title">コメント一覧</h3>
+
+        <div class="comments-list">
+            @forelse($product->comments as $comment)
+            <div class="comment-card">
+                <div class="comment-header">
+                    <div class="comment-user-info">
+                        @if($comment->user->profile->image)
+                        <img src="{{ asset('storage/' . $comment->user->profile->image) }}" class="comment-avatar">
+                        @else
+                        <span class="comment-default-icon">👤</span>
+                        @endif
+                        <span class="comment-username">{{ $comment->user->profile->name }} さん</span>
+                    </div>
+                    <span class="comment-date">{{ $comment->created_at->format('Y/m/d H:i') }}</span>
+                </div>
+                <div class="comment-body">
+                    {!! nl2br(e($comment->content)) !!}
+                </div>
+            </div>
+            @empty
+            <p class="no-comments">まだコメントはありません。</p>
+            @endforelse
+        </div>
+
+        {{-- コメント投稿フォーム --}}
+        <form action="{{ route('comments.store', $product->id) }}" method="POST" class="comment-form">
+            @csrf
+            <label class="form-label">コメントを投稿する</label>
+            <textarea name="content" rows="3" class="comment-textarea" placeholder="ここにコメントを入力してください">{{ old('content') }}</textarea>
+            @error('content') <p class="error-msg">{{ $message }}</p> @enderror
+
+            <div class="form-button-row">
+                <button type="submit" class="btn-comment-submit">送信する</button>
+            </div>
+        </form>
+    </div>
 
     {{-- ゴミ箱：右下に配置 --}}
     <form action="{{ route('products.destroy', $product->id) }}" method="POST" class="delete-fixed-form" novalidate>

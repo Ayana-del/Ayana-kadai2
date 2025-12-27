@@ -12,8 +12,7 @@ class ProductController extends Controller
     // 1. 商品一覧 (全件表示)
     public function index()
     {
-        $products = Product::latest()->get();
-        $products = Product::paginate(6);
+        $products = Product::orderBy('id', 'desc')->paginate(6);
         return view('index', compact('products'));
     }
 
@@ -30,6 +29,8 @@ class ProductController extends Controller
             $query->orderBy('price', 'desc');
         } elseif ($request->sort === 'low') {
             $query->orderBy('price', 'asc');
+        } else {
+            $query->orderBy('id', 'desc');
         }
 
         $products = $query->paginate(6)->appends($request->all());
@@ -65,11 +66,29 @@ class ProductController extends Controller
 
         return redirect()->route('products.index')->with('success', '商品を登録しました。');
     }
+    // コメント追加機能
+    public function storeComment(Request $request, $productId)
+    {
+        // バリデーション
+        $request->validate([
+            'content' => 'required|max:400',
+        ]);
+
+        // ログイン中のユーザーID、商品のID、入力内容を保存
+        \App\Models\Comment::create([
+            'user_id' => auth()->id(),
+            'product_id' => $productId,
+            'content' => $request->content,
+        ]);
+
+        return back()->with('success', 'コメントを投稿しました。');
+    }
 
     // 5. 商品詳細・変更フォーム
     public function show($productId)
     {
-        $product = Product::with('seasons')->findOrFail($productId);
+        // コメント、投稿者、投稿者のプロフィールをセットで取得
+        $product = Product::with('comments.user.profile')->findOrFail($productId);
         $seasons = Season::all();
         return view('show', compact('product', 'seasons'));
     }

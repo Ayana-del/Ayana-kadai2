@@ -20,4 +20,9 @@ class Product extends Model
     {
         return $this->belongsToMany(Season::class, 'product_season', 'product_id', 'season_id')->withTimestamps();
     }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class)->latest();
+    }
 }

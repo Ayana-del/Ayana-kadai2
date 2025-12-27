@@ -28,7 +28,11 @@
 
                 {{-- 2. 右側：名前と誕生日の2行テキスト --}}
                 <div class="user-text-info">
-                    <span class="user-name">{{ Auth::user()->name }} さん</span>
+                    <span class="user-name">{{ Auth::user()->name }} さん
+                        @if(Auth::user()->profile)
+                        {{ Auth::user()->profile->gender == 'male' ? '♂' : '♀' }}
+                        @endif
+                    </span>
                     @if(Auth::user()->profile)
                     <span class="user-birthday">
                         🎂 {{ \Carbon\Carbon::parse(Auth::user()->profile->birthday)->format('Y年m月d日') }}
