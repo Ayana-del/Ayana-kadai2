@@ -116,3 +116,19 @@
     color: #92400e;
     background-color: #fef3c7;
 }
+
+/* css/auth.css に追加 */
+.error-text {
+    color: #ff4d4d;
+    /* 赤色 */
+    font-size: 0.85rem;
+    margin-top: 5px;
+    font-weight: bold;
+    text-align: left;
+}
+
+/* 入力枠も赤くする場合（オプション） */
+.form-input:invalid,
+.form-input.is-invalid {
+    border: 1px solid #ff4d4d;
+}

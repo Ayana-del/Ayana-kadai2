@@ -35,6 +35,10 @@
                     </span>
                     @endif
                 </div>
+                <form method="POST" action="{{ route('logout') }}" class="logout-form">
+                    @csrf
+                    <button type="submit" class="btn-logout">ログアウト</button>
+                </form>
             </div>
             @endauth
             {{-- ここまで追加 --}}

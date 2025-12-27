@@ -12,39 +12,36 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Laravel\Fortify\Fortify;
-use App\Http\Requests\LoginRequest; // 作成したLoginRequest
-use App\Models\User;    // Userモデル
-use Illuminate\Support\Facades\Hash; // パスワード照合用
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Laravel\Fortify\Contracts\RegisterResponse;
+use Laravel\Fortify\Contracts\LogoutResponse;
 
 class FortifyServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     */
     public function register(): void
     {
         //
     }
 
-    /**
-     * Bootstrap any application services.
-     */
     public function boot(): void
     {
         Fortify::createUsersUsing(CreateNewUser::class);
         Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);
         Fortify::updateUserPasswordsUsing(UpdateUserPassword::class);
         Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
+
         Fortify::loginView(function () {
-            return view('auth.login'); // resources/views/auth/login.blade.php を表示
+            return view('auth.login');
         });
 
         Fortify::registerView(function () {
-            return view('auth.register'); // resources/views/auth/register.blade.php を表示
+            return view('auth.register');
         });
-        // 2. ログイン処理にカスタムの LoginRequest を適用する
-        Fortify::authenticateUsing(function (LoginRequest $request) {
+
+        // --- ここを修正 ---
+        // 引数の型指定を (LoginRequest $request) から ($request) に変更
+        Fortify::authenticateUsing(function ($request) {
             $user = User::where('email', $request->email)->first();
 
             if ($user && Hash::check($request->password, $user->password)) {
@@ -53,22 +50,25 @@ class FortifyServiceProvider extends ServiceProvider
             return null;
         });
 
-        // 3. ユーザー登録成功後のリダイレクト先を「プロフィール登録画面」へ変更
+        // 登録成功後のリダイレクト
         $this->app->instance(RegisterResponse::class, new class implements RegisterResponse {
             public function toResponse($request)
             {
-                // プロフィール作成画面へリダイレクト
                 return redirect()->route('profile.create');
             }
         });
-        RateLimiter::for('login', function (Request $request) {
-            $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())).'|'.$request->ip());
 
-            return Limit::perMinute(5)->by($throttleKey);
+        // ログアウト後のリダイレクト
+        $this->app->instance(LogoutResponse::class, new class implements LogoutResponse {
+            public function toResponse($request)
+            {
+                return redirect('/login');
+            }
         });
 
-        RateLimiter::for('two-factor', function (Request $request) {
-            return Limit::perMinute(5)->by($request->session()->get('login.id'));
+        RateLimiter::for('login', function (Request $request) {
+            $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())) . '|' . $request->ip());
+            return Limit::perMinute(5)->by($throttleKey);
         });
     }
 }

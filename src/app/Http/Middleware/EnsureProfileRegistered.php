@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class EnsureProfileRegistered
 {
@@ -14,10 +15,10 @@ class EnsureProfileRegistered
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
-    function handle($request, Closure $next)
+    public function handle( Request $request, Closure $next)
     {
         // ログインユーザーに紐づくプロフィールがない場合、登録画面へ飛ばす
-        if (auth()->check() && !auth()->user()->profile) { // profileリレーションがある前提
+        if (Auth()->check() && !Auth()->user()->profile) { // profileリレーションがある前提
             return redirect()->route('profile.create');
         }
 

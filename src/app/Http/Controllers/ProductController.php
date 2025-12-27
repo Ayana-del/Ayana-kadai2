@@ -12,6 +12,7 @@ class ProductController extends Controller
     // 1. 商品一覧 (全件表示)
     public function index()
     {
+        $products = Product::latest()->get();
         $products = Product::paginate(6);
         return view('index', compact('products'));
     }
