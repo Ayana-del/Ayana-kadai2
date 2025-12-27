@@ -168,22 +168,29 @@ created_at | timestamp | | | | |
   
 ## モデル・リレーション仕様  
 
-Eloquent ORM を使用し、以下の通りテーブル間の関連付けを定義しています。
+Eloquent ORM を使用し、以下の通りテーブル間の関連付けを定義しています。  
+  
+### User　モデル(App\Models\User)  
+１対１リレーション:profile()  
+・profileモデルと関連づけられています。ユーザーは１つの詳細プロフィールを持ちます。  
+・一括割り当て制限($fillable):name,email,password (Fortifyによる認証基盤として機能します。)  
+  
+### profile モデル(App\Models\Profile)  
+1対１リレーション（逆方向）:user()  
+・Userモデルに属しています。user_idを介して親ユーザーを特定します。  
+・一括割り当て制限($fillable):user_id,name,birthday,image (ユーザー名、誕生日、画像パスを管理)
 
 ### Product モデル(APP\Models\Product)
-
-・多対多リレーション：seasons()  
-　・product_season 中間テーブルを介して Season モデルと関連づけられています。  
-　・withTimestamps()を有効にしており、中間テーブルの created_at/updated_at を自動更新します。
-
-・一括割り当て制限($fillable):name,price,image,description
-
+多対多リレーション：seasons()  
+・product_season 中間テーブルを介して Season モデルと関連づけられています。  
+・withTimestamps()を有効にしており、中間テーブルの created_at/updated_at を自動更新します。  
+・一括割り当て制限($fillable):name,price,image,description  
+  
 ### Season モデル(App\Models\Season)  
-
-・多対多リレーション：products()  
-　・product_sesason 中間テーブルを介して Product モデルと関連づけられています。  
-・一括割り当て制限($fillable):name
-
+多対多リレーション：products()  
+・product_season 中間テーブルを介して Product モデルと関連づけられています。  
+・一括割り当て制限($fillable):name  
+  
 ## 初期データ仕様  
 
 ### SeasonSeeder  
@@ -273,7 +280,7 @@ Eloquent の attach()メソッドを使用し、中間テーブル(product_seaso
 ユーザーが本サービスを利用するためのアカウントを作成する画面。  
 ### 項目定義  
 | 項目名 | フォーム種別 | バリデーションルール |  
-| :---- | :---- | :---- | :---- |  
+| :---- | :---- | :---- |  
 | 名前 | text | 必須入力 |  
 | メールアドレス | email | 必須入力、有効なメール形式、重複不可 |  
 | パスワード | password | 必須入力、確認用パスワードと一致 |  
@@ -289,7 +296,7 @@ Eloquent の attach()メソッドを使用し、中間テーブル(product_seaso
 登録済みのユーザーが、メールアドレスとパスワードを用いて認証を行う画面。  
 ### 項目定義  
 | 項目名 | フォーム種別 | バリデーションルール |  
-| :---- | :---- | :---- | :---- |  
+| :---- | :---- | :---- |  
 | メールアドレス | email | 必須入力、有効なメール形式 |  
 | パスワード | password | 必須入力 |
   
