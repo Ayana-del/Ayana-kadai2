@@ -50,7 +50,23 @@ cp .env.example .env
 ```bash
 php artisan key:generate
 ```
-
+  
+データベースの構築  
+```bash  
+php artisan migrate --seed  
+```  
+  
+画像を表示させるための設定  
+シンボリックリンクの作成  
+```bash  
+php artisan storage:link  
+```  
+画像保存ディレクトリの権限変更（書き込み・表示を許可）  
+```bash  
+chmod -R 777 storage bootstrap/cache  
+```
+  
+  
 ## 使用技術  
 ・Language: PHP 7.4 / 8.x  
 ・Framework: Laravel 8.x  
@@ -60,7 +76,7 @@ php artisan key:generate
 ## ER 図  
 
 テーブル使用に基づいて作成した ER 図を以下に示します。  
-![ER図](ER図.drawio.png)
+![ER](ER.drawio.png)
 
 ## ルーティング仕様  
 商品管理（Products）
