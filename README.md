@@ -112,11 +112,33 @@ FortifyServiceProvider にて挙動をカスタマイズ
 | :---- | :---- | :---- | :---- |  
 | create() | GET | /profile/create | プロフィール登録フォームを表示。新規登録ユーザーに、名前・誕生日・ユーザー画像の入力を促す。  
 | store(Request $request) | POST | /profile/store | プロフィール登録処理。入力データのバリデーション、画像アップロード、profilesテーブルへのデータ保存を行う。 |
-
+  
 ## データベース仕様  
 
 商品管理機能のために定義し、マイグレーションを実行したテーブル構造は以下の通りです。  
-1.products テーブル（商品情報）  
+  
+1.userテーブル  
+| カラム名 | 型 | PRIMARY KEY | NOT NULL | 補足 |  
+| :---- | :---- | :---- | :---- | :---- |  
+| id | bigint unsigned | ◯ | ◯ | 主キー |  
+| email | varchar(255) | | ◯ | ログイン用メールアドレス（ユニーク制約） |  
+| password | varchar(255) | | ◯ | パスワード（ハッシュ化） |  
+created_at | timestamp | | | | |  
+| updated_at | timestamp | | | | |
+  
+2.profileテーブル
+ユーザーごとの詳細情報を管理します。  
+| カラム名 | 型 | PRIMARY KEY | NOT NULL | FOREIGN KEY | 補足 |  
+| :--- | :--- | :--- | :--- | :--- | :--- |  
+| id | bigint unsigned | ◯ | ◯ | | 主キー |  
+| user_id | bigint unsigned | | ◯ | users(id) | ユーザーID |  
+| name | varchar(255) | | ◯ | | プロフィール名 |  
+| birthday | date | | ◯ | | 誕生日 |  
+| image | varchar(255) | | | | ユーザーアイコンパス |
+| created_at | timestamp | | | | |  
+| updated_at | timestamp | | | | |
+  
+3.products テーブル（商品情報）  
 | カラム名 | 型 | PRIMARY KEY | NOT NULL | 補足 |  
 | :---- | :---- | :---- | :---- | :---- |  
 | id | bigint unsigned | ◯ | ◯ | 主キー |  
@@ -126,16 +148,16 @@ FortifyServiceProvider にて挙動をカスタマイズ
 | description | text | | ◯ | 商品説明 |  
 | created_at | timestamp | | | |  
 | updated_at | timestamp | | | |
-
-2.seasons テーブル（季節情報）  
+  
+4.seasons テーブル（季節情報）  
 | カラム名 | 型 | PRIMARY KEY | NOT NULL | 補足 |  
 | :---- | :---- | :---- | :---- | :---- |  
 | id | bigint unsigned | ◯ | ◯ | 主キー |  
 | name | varchar(255) | | ◯ | 季節名 |  
 | created_at | timestamp | | | |  
 | updated_at | timestamp | | | |
-
-3.product_season テーブル（中間テーブル）  
+  
+5.product_season テーブル（中間テーブル）  
 | カラム名 | 型 | PRIMARY KEY | NOT NULL | FOREIGN KEY |  
 | :---- | :---- | :---- | :---- | :---- |  
 | id | bigint unsigned | ◯ | ◯ | |  
@@ -143,7 +165,7 @@ FortifyServiceProvider にて挙動をカスタマイズ
 | season_id | bigint unsigned | | ◯ | seasons(id) |  
 | create_at | timestamp | | | |  
 | updated_at | timestamp | | | |
-
+  
 ## モデル・リレーション仕様  
 
 Eloquent ORM を使用し、以下の通りテーブル間の関連付けを定義しています。
@@ -255,7 +277,7 @@ Eloquent の attach()メソッドを使用し、中間テーブル(product_seaso
 | 名前 | text | 必須入力 |  
 | メールアドレス | email | 必須入力、有効なメール形式、重複不可 |  
 | パスワード | password | 必須入力、確認用パスワードと一致 |  
-| パスワード（確認） | password | 必須入力 |  
+| パスワード（確認） | password | 必須入力 |
   
 ### 遷移・ロジック  
 1.登録画面をクリックしたとき：CreateNewUserアクションを実行し、usersテーブルにレコードを保存。  
@@ -269,7 +291,7 @@ Eloquent の attach()メソッドを使用し、中間テーブル(product_seaso
 | 項目名 | フォーム種別 | バリデーションルール |  
 | :---- | :---- | :---- | :---- |  
 | メールアドレス | email | 必須入力、有効なメール形式 |  
-| パスワード | password | 必須入力 |  
+| パスワード | password | 必須入力 |
   
 ### 遷移・ロジック  
 1.認証処理：FortifyServiceProviderのauthenticateUsingメソッドにて、usersテーブルとの照合を行う。  
@@ -284,6 +306,7 @@ Eloquent の attach()メソッドを使用し、中間テーブル(product_seaso
 ユーザーの情報を登録する画面  
 ### 項目定義  
 | 項目名 | フォーム種別 | バリデーションルール |  
+| :---- | :---- | :---- |
 | ユーザー画像 | file(image) | 任意。（画像登録ない場合はアイコンを表示） |  
 | 名前 | text | 必須入力 | 必須入力（ニックネームを想定） |  
 | 誕生日 | date | 必須。生年月日を選択。 |  
